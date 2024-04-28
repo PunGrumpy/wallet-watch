@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+    <h1>🐖 Wallet Watch</h1>
+    <strong>Track your wallet balances and transactions</strong>
+    <div>
+        <img src="https://cdn.icon-icons.com/icons2/1875/PNG/512/piggybank_120392.png" alt="Wallet Watch Logo" width="200px" height="200px">
+    </div>
+</div>
 
-## Getting Started
+## 🤔 About
 
-First, run the development server:
+Wallet Watch is your go-to tool for simplifying personal finance management. With its user-friendly interface and powerful features, you can take control of your finances like never before.
+
+## 📝 Features
+
+- Add, edit, and delete wallets
+- Add, edit, and delete transactions
+- View wallet balances
+- View transaction history
+- View transaction details
+
+## 🚀 Installation
+
+1. Clone the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone git@github.com:PunGrumpy/wallet-watch.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd wallet-watch
+bun install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Environment variables
 
-## Learn More
+Create a `.env` file in the root of the project and add the following environment variables:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cp -n .env.example .env
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Start the server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+bun run dev
+```
 
-## Deploy on Vercel
+5. Visit `http://localhost:3000` in your browser
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠️ Built With
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [Next.js](https://nextjs.org/) with [TypeScript](https://www.typescriptlang.org/) and [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/) with [Radix](https://www.radix-ui.com/) and [Lucide Icons](https://lucide.dev/) for styling
+- [Clerk](https://clerk.dev/) for authentication
+- [PostgreSQL (Vercel)](https://vercel.com/docs/storage/vercel-postgres) for the database
+- [Prisma](https://www.prisma.io/) for the ORM
+- [Vercel](https://vercel.com/) for deployment
+- [TanStack](https://tanstack.com/) for the full-stack template
+
+## 📝 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 🙏 Many Thanks
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Kliton">
+        <img src="https://avatars.githubusercontent.com/u/10452377?v=4" width="100px;" alt="Kliton"/>
+        <br />
+        <sub><b>Kliton</b></sub>
+        <br />
+        <a href="https://github.com/Kliton/budget_tracker" title="Budget Tracker" style="text-decoration: none;">📈</a>
+      </a>
+    </td>
+  </tr>
+</table>
