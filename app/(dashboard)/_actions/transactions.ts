@@ -1,34 +1,34 @@
-"use server";
+'use server'
 
-import prisma from "@/lib/prisma";
+import prisma from '@/lib/prisma'
 import {
   CreateTransactionSchema,
-  CreateTransactionSchemaType,
-} from "@/schema/transaction";
-import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+  CreateTransactionSchemaType
+} from '@/schema/transaction'
+import { currentUser } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 
 export async function CreateTransaction(form: CreateTransactionSchemaType) {
-  const parsedBody = CreateTransactionSchema.safeParse(form);
+  const parsedBody = CreateTransactionSchema.safeParse(form)
   if (!parsedBody.success) {
-    throw new Error(parsedBody.error.message);
+    throw new Error(parsedBody.error.message)
   }
 
-  const user = await currentUser();
+  const user = await currentUser()
   if (!user) {
-    redirect("/sign-in");
+    redirect('/sign-in')
   }
 
-  const { amount, category, date, description, type } = parsedBody.data;
+  const { amount, category, date, description, type } = parsedBody.data
   const categoryRow = await prisma.category.findFirst({
     where: {
       userId: user.id,
-      name: category,
-    },
-  });
+      name: category
+    }
+  })
 
   if (!categoryRow) {
-    throw new Error("category not found");
+    throw new Error('category not found')
   }
 
   // NOTE: don't make confusion between $transaction ( prisma ) and prisma.transaction (table)
@@ -40,11 +40,11 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
         userId: user.id,
         amount,
         date,
-        description: description || "",
+        description: description || '',
         type,
         category: categoryRow.name,
-        categoryIcon: categoryRow.icon,
-      },
+        categoryIcon: categoryRow.icon
+      }
     }),
 
     // Update month aggregate table
@@ -54,25 +54,25 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
           userId: user.id,
           day: date.getUTCDate(),
           month: date.getUTCMonth(),
-          year: date.getUTCFullYear(),
-        },
+          year: date.getUTCFullYear()
+        }
       },
       create: {
         userId: user.id,
         day: date.getUTCDate(),
         month: date.getUTCMonth(),
         year: date.getUTCFullYear(),
-        expense: type === "expense" ? amount : 0,
-        income: type === "income" ? amount : 0,
+        expense: type === 'expense' ? amount : 0,
+        income: type === 'income' ? amount : 0
       },
       update: {
         expense: {
-          increment: type === "expense" ? amount : 0,
+          increment: type === 'expense' ? amount : 0
         },
         income: {
-          increment: type === "income" ? amount : 0,
-        },
-      },
+          increment: type === 'income' ? amount : 0
+        }
+      }
     }),
 
     // Update year aggreate
@@ -81,24 +81,24 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
         month_year_userId: {
           userId: user.id,
           month: date.getUTCMonth(),
-          year: date.getUTCFullYear(),
-        },
+          year: date.getUTCFullYear()
+        }
       },
       create: {
         userId: user.id,
         month: date.getUTCMonth(),
         year: date.getUTCFullYear(),
-        expense: type === "expense" ? amount : 0,
-        income: type === "income" ? amount : 0,
+        expense: type === 'expense' ? amount : 0,
+        income: type === 'income' ? amount : 0
       },
       update: {
         expense: {
-          increment: type === "expense" ? amount : 0,
+          increment: type === 'expense' ? amount : 0
         },
         income: {
-          increment: type === "income" ? amount : 0,
-        },
-      },
-    }),
-  ]);
+          increment: type === 'income' ? amount : 0
+        }
+      }
+    })
+  ])
 }

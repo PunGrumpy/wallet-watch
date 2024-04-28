@@ -1,23 +1,23 @@
-import { CurrencyComboBox } from "@/components/CurrencyComboBox";
-import Logo from "@/components/Logo";
-import { Button } from "@/components/ui/button";
+import { CurrencyComboBox } from '@/components/CurrencyComboBox'
+import Logo from '@/components/Logo'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { currentUser } from "@clerk/nextjs/server";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import React from "react";
+  CardTitle
+} from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { currentUser } from '@clerk/nextjs/server'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import React from 'react'
 
 async function page() {
-  const user = await currentUser();
+  const user = await currentUser()
   if (!user) {
-    redirect("/sign-in");
+    redirect('/sign-in')
   }
   return (
     <div className="container flex max-w-2xl flex-col items-center justify-between gap-4">
@@ -47,13 +47,13 @@ async function page() {
       </Card>
       <Separator />
       <Button className="w-full" asChild>
-        <Link href={"/"}>I&apos;m done! Take me to the dashboard</Link>
+        <Link href={'/'}>I&apos;m done! Take me to the dashboard</Link>
       </Button>
       <div className="mt-8">
         <Logo />
       </div>
     </div>
-  );
+  )
 }
 
-export default page;
+export default page

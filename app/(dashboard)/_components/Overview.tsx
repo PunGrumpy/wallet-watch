@@ -1,19 +1,19 @@
-"use client";
+'use client'
 
-import CategoriesStats from "@/app/(dashboard)/_components/CategoriesStats";
-import StatsCards from "@/app/(dashboard)/_components/StatsCards";
-import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { MAX_DATE_RANGE_DAYS } from "@/lib/constants";
-import { UserSettings } from "@prisma/client";
-import { differenceInDays, startOfMonth } from "date-fns";
-import React, { useState } from "react";
-import { toast } from "sonner";
+import CategoriesStats from '@/app/(dashboard)/_components/CategoriesStats'
+import StatsCards from '@/app/(dashboard)/_components/StatsCards'
+import { DateRangePicker } from '@/components/ui/date-range-picker'
+import { MAX_DATE_RANGE_DAYS } from '@/lib/constants'
+import { UserSettings } from '@prisma/client'
+import { differenceInDays, startOfMonth } from 'date-fns'
+import React, { useState } from 'react'
+import { toast } from 'sonner'
 
 function Overview({ userSettings }: { userSettings: UserSettings }) {
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
     from: startOfMonth(new Date()),
-    to: new Date(),
-  });
+    to: new Date()
+  })
 
   return (
     <>
@@ -24,19 +24,19 @@ function Overview({ userSettings }: { userSettings: UserSettings }) {
             initialDateFrom={dateRange.from}
             initialDateTo={dateRange.to}
             showCompare={false}
-            onUpdate={(values) => {
-              const { from, to } = values.range;
+            onUpdate={values => {
+              const { from, to } = values.range
               // We update the date range only if both dates are set
 
-              if (!from || !to) return;
+              if (!from || !to) return
               if (differenceInDays(to, from) > MAX_DATE_RANGE_DAYS) {
                 toast.error(
                   `The selected date range is too big. Max allowed range is ${MAX_DATE_RANGE_DAYS} days!`
-                );
-                return;
+                )
+                return
               }
 
-              setDateRange({ from, to });
+              setDateRange({ from, to })
             }}
           />
         </div>
@@ -55,7 +55,7 @@ function Overview({ userSettings }: { userSettings: UserSettings }) {
         />
       </div>
     </>
-  );
+  )
 }
 
-export default Overview;
+export default Overview

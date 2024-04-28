@@ -1,5 +1,5 @@
-import Logo from "@/components/Logo";
-import React, { ReactNode } from "react";
+import Logo from '@/components/Logo'
+import React, { ReactNode } from 'react'
 
 function layout({ children }: { children: ReactNode }) {
   return (
@@ -7,7 +7,7 @@ function layout({ children }: { children: ReactNode }) {
       <Logo />
       <div className="mt-12">{children}</div>
     </div>
-  );
+  )
 }
 
-export default layout;
+export default layout

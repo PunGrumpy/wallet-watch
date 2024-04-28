@@ -1,24 +1,24 @@
-"use client";
+'use client'
 
-import CreateCategoryDialog from "@/app/(dashboard)/_components/CreateCategoryDialog";
-import DeleteCategoryDialog from "@/app/(dashboard)/_components/DeleteCategoryDialog";
-import { CurrencyComboBox } from "@/components/CurrencyComboBox";
-import SkeletonWrapper from "@/components/SkeletonWrapper";
-import { Button } from "@/components/ui/button";
+import CreateCategoryDialog from '@/app/(dashboard)/_components/CreateCategoryDialog'
+import DeleteCategoryDialog from '@/app/(dashboard)/_components/DeleteCategoryDialog'
+import { CurrencyComboBox } from '@/components/CurrencyComboBox'
+import SkeletonWrapper from '@/components/SkeletonWrapper'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { TransactionType } from "@/lib/types";
-import { cn } from "@/lib/utils";
-import { Category } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
-import { PlusSquare, TrashIcon, TrendingDown, TrendingUp } from "lucide-react";
-import React from "react";
+  CardTitle
+} from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { TransactionType } from '@/lib/types'
+import { cn } from '@/lib/utils'
+import { Category } from '@prisma/client'
+import { useQuery } from '@tanstack/react-query'
+import { PlusSquare, TrashIcon, TrendingDown, TrendingUp } from 'lucide-react'
+import React from 'react'
 
 function page() {
   return (
@@ -51,19 +51,18 @@ function page() {
         <CategoryList type="expense" />
       </div>
     </>
-  );
+  )
 }
 
-export default page;
+export default page
 
 function CategoryList({ type }: { type: TransactionType }) {
   const categoriesQuery = useQuery({
-    queryKey: ["categories", type],
-    queryFn: () =>
-      fetch(`/api/categories?type=${type}`).then((res) => res.json()),
-  });
+    queryKey: ['categories', type],
+    queryFn: () => fetch(`/api/categories?type=${type}`).then(res => res.json())
+  })
 
-  const dataAvailable = categoriesQuery.data && categoriesQuery.data.length > 0;
+  const dataAvailable = categoriesQuery.data && categoriesQuery.data.length > 0
 
   return (
     <SkeletonWrapper isLoading={categoriesQuery.isLoading}>
@@ -71,13 +70,13 @@ function CategoryList({ type }: { type: TransactionType }) {
         <CardHeader>
           <CardTitle className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              {type === "expense" ? (
+              {type === 'expense' ? (
                 <TrendingDown className="h-12 w-12 items-center rounded-lg bg-red-400/10 p-2 text-red-500" />
               ) : (
                 <TrendingUp className="h-12 w-12 items-center rounded-lg bg-emerald-400/10 p-2 text-emerald-500" />
               )}
               <div>
-                {type === "income" ? "Incomes" : "Expenses"} categories
+                {type === 'income' ? 'Incomes' : 'Expenses'} categories
                 <div className="text-sm text-muted-foreground">
                   Sorted by name
                 </div>
@@ -103,8 +102,8 @@ function CategoryList({ type }: { type: TransactionType }) {
               No
               <span
                 className={cn(
-                  "m-1",
-                  type === "income" ? "text-emerald-500" : "text-red-500"
+                  'm-1',
+                  type === 'income' ? 'text-emerald-500' : 'text-red-500'
                 )}
               >
                 {type}
@@ -126,7 +125,7 @@ function CategoryList({ type }: { type: TransactionType }) {
         )}
       </Card>
     </SkeletonWrapper>
-  );
+  )
 }
 
 function CategoryCard({ category }: { category: Category }) {
@@ -143,7 +142,7 @@ function CategoryCard({ category }: { category: Category }) {
         trigger={
           <Button
             className="flex w-full border-separate items-center gap-2 rounded-t-none text-muted-foreground hover:bg-red-500/20"
-            variant={"secondary"}
+            variant={'secondary'}
           >
             <TrashIcon className="h-4 w-4" />
             Remove
@@ -151,5 +150,5 @@ function CategoryCard({ category }: { category: Category }) {
         }
       />
     </div>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function loading() {
-  return null;
+  return null
 }
 
-export default loading;
+export default loading

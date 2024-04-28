@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar";
-import React, { ReactNode } from "react";
+import Navbar from '@/components/Navbar'
+import React, { ReactNode } from 'react'
 
 function layout({ children }: { children: ReactNode }) {
   return (
@@ -7,7 +7,7 @@ function layout({ children }: { children: ReactNode }) {
       <Navbar />
       <div className="w-full">{children}</div>
     </div>
-  );
+  )
 }
 
-export default layout;
+export default layout

@@ -1,12 +1,19 @@
 {
   "name": "wallet-watch",
+  "description": "Wallet Watch is a personal finance management tool that helps you track your expenses, income, and investments.",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pretty": "prettier --write --ignore-path .gitignore --config .prettierrc \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "prisma": "prisma",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "prisma:reset": "prisma migrate reset --force"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.0.3",

@@ -1,38 +1,38 @@
-"use client";
+'use client'
 
-import { GetBalanceStatsResponseType } from "@/app/api/stats/balance/route";
-import SkeletonWrapper from "@/components/SkeletonWrapper";
-import { Card } from "@/components/ui/card";
-import { DateToUTCDate, GetFormatterForCurrency } from "@/lib/helpers";
-import { UserSettings } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
-import { TrendingDown, TrendingUp, Wallet } from "lucide-react";
-import React, { ReactNode, useCallback, useMemo } from "react";
-import CountUp from "react-countup";
+import { GetBalanceStatsResponseType } from '@/app/api/stats/balance/route'
+import SkeletonWrapper from '@/components/SkeletonWrapper'
+import { Card } from '@/components/ui/card'
+import { DateToUTCDate, GetFormatterForCurrency } from '@/lib/helpers'
+import { UserSettings } from '@prisma/client'
+import { useQuery } from '@tanstack/react-query'
+import { TrendingDown, TrendingUp, Wallet } from 'lucide-react'
+import React, { ReactNode, useCallback, useMemo } from 'react'
+import CountUp from 'react-countup'
 
 interface Props {
-  from: Date;
-  to: Date;
-  userSettings: UserSettings;
+  from: Date
+  to: Date
+  userSettings: UserSettings
 }
 
 function StatsCards({ from, to, userSettings }: Props) {
   const statsQuery = useQuery<GetBalanceStatsResponseType>({
-    queryKey: ["overview", "stats", from, to],
+    queryKey: ['overview', 'stats', from, to],
     queryFn: () =>
       fetch(
         `/api/stats/balance?from=${DateToUTCDate(from)}&to=${DateToUTCDate(to)}`
-      ).then((res) => res.json()),
-  });
+      ).then(res => res.json())
+  })
 
   const formatter = useMemo(() => {
-    return GetFormatterForCurrency(userSettings.currency);
-  }, [userSettings.currency]);
+    return GetFormatterForCurrency(userSettings.currency)
+  }, [userSettings.currency])
 
-  const income = statsQuery.data?.income || 0;
-  const expense = statsQuery.data?.expense || 0;
+  const income = statsQuery.data?.income || 0
+  const expense = statsQuery.data?.expense || 0
 
-  const balance = income - expense;
+  const balance = income - expense
 
   return (
     <div className="relative flex w-full flex-wrap gap-2 md:flex-nowrap">
@@ -69,28 +69,28 @@ function StatsCards({ from, to, userSettings }: Props) {
         />
       </SkeletonWrapper>
     </div>
-  );
+  )
 }
 
-export default StatsCards;
+export default StatsCards
 
 function StatCard({
   formatter,
   value,
   title,
-  icon,
+  icon
 }: {
-  formatter: Intl.NumberFormat;
-  icon: ReactNode;
-  title: String;
-  value: number;
+  formatter: Intl.NumberFormat
+  icon: ReactNode
+  title: String
+  value: number
 }) {
   const formatFn = useCallback(
     (value: number) => {
-      return formatter.format(value);
+      return formatter.format(value)
     },
     [formatter]
-  );
+  )
 
   return (
     <Card className="flex h-24 w-full items-center gap-2 p-4">
@@ -107,5 +107,5 @@ function StatCard({
         />
       </div>
     </Card>
-  );
+  )
 }

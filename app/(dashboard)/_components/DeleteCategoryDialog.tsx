@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { DeleteCategory } from "@/app/(dashboard)/_actions/categories";
+import { DeleteCategory } from '@/app/(dashboard)/_actions/categories'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,40 +10,40 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { TransactionType } from "@/lib/types";
-import { Category } from "@prisma/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React, { ReactNode } from "react";
-import { toast } from "sonner";
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog'
+import { TransactionType } from '@/lib/types'
+import { Category } from '@prisma/client'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import React, { ReactNode } from 'react'
+import { toast } from 'sonner'
 
 interface Props {
-  trigger: ReactNode;
-  category: Category;
+  trigger: ReactNode
+  category: Category
 }
 
 function DeleteCategoryDialog({ category, trigger }: Props) {
-  const categoryIdentifier = `${category.name}-${category.type}`;
-  const queryClient = useQueryClient();
+  const categoryIdentifier = `${category.name}-${category.type}`
+  const queryClient = useQueryClient()
 
   const deleteMutation = useMutation({
     mutationFn: DeleteCategory,
     onSuccess: async () => {
-      toast.success("Category deleted successfully", {
-        id: categoryIdentifier,
-      });
+      toast.success('Category deleted successfully', {
+        id: categoryIdentifier
+      })
 
       await queryClient.invalidateQueries({
-        queryKey: ["categories"],
-      });
+        queryKey: ['categories']
+      })
     },
     onError: () => {
-      toast.error("Something went wrong", {
-        id: categoryIdentifier,
-      });
-    },
-  });
+      toast.error('Something went wrong', {
+        id: categoryIdentifier
+      })
+    }
+  })
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
@@ -59,13 +59,13 @@ function DeleteCategoryDialog({ category, trigger }: Props) {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
-              toast.loading("Deleting category...", {
-                id: categoryIdentifier,
-              });
+              toast.loading('Deleting category...', {
+                id: categoryIdentifier
+              })
               deleteMutation.mutate({
                 name: category.name,
-                type: category.type as TransactionType,
-              });
+                type: category.type as TransactionType
+              })
             }}
           >
             Continue
@@ -73,7 +73,7 @@ function DeleteCategoryDialog({ category, trigger }: Props) {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
+  )
 }
 
-export default DeleteCategoryDialog;
+export default DeleteCategoryDialog

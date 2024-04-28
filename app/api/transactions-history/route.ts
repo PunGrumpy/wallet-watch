@@ -1,71 +1,71 @@
-import { GetFormatterForCurrency } from "@/lib/helpers";
-import prisma from "@/lib/prisma";
-import { OverviewQuerySchema } from "@/schema/overview";
-import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import { GetFormatterForCurrency } from '@/lib/helpers'
+import prisma from '@/lib/prisma'
+import { OverviewQuerySchema } from '@/schema/overview'
+import { currentUser } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 
 export async function GET(request: Request) {
-  const user = await currentUser();
+  const user = await currentUser()
   if (!user) {
-    redirect("/sign-in");
+    redirect('/sign-in')
   }
 
-  const { searchParams } = new URL(request.url);
-  const from = searchParams.get("from");
-  const to = searchParams.get("to");
+  const { searchParams } = new URL(request.url)
+  const from = searchParams.get('from')
+  const to = searchParams.get('to')
 
   const queryParams = OverviewQuerySchema.safeParse({
     from,
-    to,
-  });
+    to
+  })
 
   if (!queryParams.success) {
     return Response.json(queryParams.error.message, {
-      status: 400,
-    });
+      status: 400
+    })
   }
 
   const transactions = await getTransactionsHistory(
     user.id,
     queryParams.data.from,
-    queryParams.data.to,
-  );
+    queryParams.data.to
+  )
 
-  return Response.json(transactions);
+  return Response.json(transactions)
 }
 
 export type GetTransactionHistoryResponseType = Awaited<
   ReturnType<typeof getTransactionsHistory>
->;
+>
 
 async function getTransactionsHistory(userId: string, from: Date, to: Date) {
   const userSettings = await prisma.userSettings.findUnique({
     where: {
-      userId,
-    },
-  });
+      userId
+    }
+  })
   if (!userSettings) {
-    throw new Error("user settings not found");
+    throw new Error('user settings not found')
   }
 
-  const formatter = GetFormatterForCurrency(userSettings.currency);
+  const formatter = GetFormatterForCurrency(userSettings.currency)
 
   const transactions = await prisma.transaction.findMany({
     where: {
       userId,
       date: {
         gte: from,
-        lte: to,
-      },
+        lte: to
+      }
     },
     orderBy: {
-      date: "desc",
-    },
-  });
+      date: 'desc'
+    }
+  })
 
-  return transactions.map((transaction) => ({
+  return transactions.map(transaction => ({
     ...transaction,
     // lets format the amount with the user currency
-    formattedAmount: formatter.format(transaction.amount),
-  }));
+    formattedAmount: formatter.format(transaction.amount)
+  }))
 }
