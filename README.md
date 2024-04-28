@@ -38,7 +38,23 @@ bun install
 Create a `.env` file in the root of the project and add the following environment variables:
 
 ```bash
-cp -n .env.example .env
+touch .env
+
+echo "\
+# Vercel Postgres Storage
+POSTGRES_URL=
+POSTGRES_PRISMA_URL=
+POSTGRES_URL_NO_SSL=
+POSTGRES_URL_NON_POOLING=
+POSTGRES_USER=
+POSTGRES_HOST=
+POSTGRES_PASSWORD=
+POSTGRES_DATABASE=
+
+# Clerk Auth
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET=\
+" > .env
 ```
 
 4. Start the server
